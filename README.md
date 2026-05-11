@@ -1,4 +1,4 @@
-# 📄 RAG PDF Assistant
+# RAG PDF Assistant
 
 > **Ask questions about any PDF — answered by AI, grounded in your document.**  
 > Fully local. No API keys. No cloud. Just your machine.
@@ -11,7 +11,7 @@
 
 ---
 
-## 🧠 What is RAG?
+## What is RAG?
 
 **Retrieval-Augmented Generation (RAG)** is a technique that gives an LLM access to external knowledge by:
 
@@ -23,7 +23,7 @@ This prevents hallucinations and makes the model's answers verifiable and tracea
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 ```
 PDF Upload
@@ -62,7 +62,7 @@ PDF Upload
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ```bash
 # 1. Clone the repo
@@ -88,7 +88,7 @@ python rag_pipeline.py ../data/sample_pdfs/your.pdf "What is this document about
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 rag-pdf-assistant/
@@ -105,7 +105,7 @@ rag-pdf-assistant/
 
 ---
 
-## 🔬 Models Used
+## Models Used
 
 | Component | Model | Why |
 |---|---|---|
@@ -117,7 +117,7 @@ All models are downloaded automatically via HuggingFace on first run (~1 GB tota
 
 ---
 
-## 📓 Notebook Walkthrough
+## Notebook Walkthrough
 
 The [`notebooks/rag_walkthrough.ipynb`](notebooks/rag_walkthrough.ipynb) covers:
 
@@ -131,7 +131,7 @@ The [`notebooks/rag_walkthrough.ipynb`](notebooks/rag_walkthrough.ipynb) covers:
 
 ---
 
-## 💡 Key Design Decisions
+## Key Design Decisions
 
 - **Chunk overlap (50 chars)**: Prevents context from being cut off at chunk boundaries
 - **Normalized embeddings**: Cosine similarity equals dot product on unit vectors — faster
@@ -141,7 +141,7 @@ The [`notebooks/rag_walkthrough.ipynb`](notebooks/rag_walkthrough.ipynb) covers:
 
 ---
 
-## 🔧 Extending This Project
+## Extending This Project
 
 - Swap `Qwen2.5-0.5B-Instruct` for a 7B model via `llama.cpp` for much better answers
 - Add `BM25` hybrid retrieval alongside dense embeddings for better recall
