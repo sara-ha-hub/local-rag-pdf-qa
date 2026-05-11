@@ -150,6 +150,6 @@ The [`notebooks/rag_walkthrough.ipynb`](notebooks/rag_walkthrough.ipynb) covers:
 
 ---
 
-## 📄 License
+## License
 
 MIT — free to use, modify, and share.
