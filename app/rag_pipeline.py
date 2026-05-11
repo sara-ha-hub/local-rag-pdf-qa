@@ -22,7 +22,7 @@ from langchain_core.output_parsers import StrOutputParser
 from transformers import pipeline, AutoTokenizer, AutoModelForCausalLM
 
 
-# ── Constants ────────────────────────────────────────────────────────────────
+# ----- Constants ----------------------------------------------------------
 EMBED_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
 LLM_MODEL   = "Qwen/Qwen2.5-0.5B-Instruct"   # small, CPU-friendly, instruction-tuned
 CHUNK_SIZE  = 500
@@ -40,7 +40,7 @@ Question: {question}
 Answer:"""
 
 
-# ── PDF Loading & Chunking ────────────────────────────────────────────────────
+# ---- PDF Loading & Chunking ----------------------------------------------------------
 def load_and_split_pdf(pdf_path: str) -> List:
     """Load a PDF and split into overlapping chunks."""
     loader = PyPDFLoader(pdf_path)
@@ -55,7 +55,7 @@ def load_and_split_pdf(pdf_path: str) -> List:
     return chunks
 
 
-# ── Embeddings (shared helper to avoid duplication) ──────────────────────────
+# --- Embeddings (shared helper to avoid duplication) ------------------------
 def _get_embeddings() -> HuggingFaceEmbeddings:
     return HuggingFaceEmbeddings(
         model_name=EMBED_MODEL,
@@ -64,7 +64,7 @@ def _get_embeddings() -> HuggingFaceEmbeddings:
     )
 
 
-# ── Vector Store ─────────────────────────────────────────────────────────────
+# ---- Vector Store ----------------------------------------------------------
 def build_vectorstore(chunks: List) -> FAISS:
     """Embed chunks and build a FAISS vector store."""
     return FAISS.from_documents(chunks, _get_embeddings())
@@ -80,7 +80,7 @@ def load_vectorstore(path: str = "vectorstore") -> FAISS:
     )
 
 
-# ── LLM ──────────────────────────────────────────────────────────────────────
+# --- LLM --------------------------------------------------------------------
 def load_llm() -> HuggingFacePipeline:
     """Load a lightweight causal LM locally for text-generation."""
     tokenizer = AutoTokenizer.from_pretrained(LLM_MODEL)
@@ -98,7 +98,7 @@ def load_llm() -> HuggingFacePipeline:
     return HuggingFacePipeline(pipeline=pipe)
 
 
-# ── RAG Chain ─────────────────────────────────────────────────────────────────
+# --- RAG Chain ----------------------------------------------------------
 def build_rag_chain(vectorstore: FAISS, llm: HuggingFacePipeline):
     """Build the full RAG chain with retriever + LLM (LCEL)."""
     prompt = PromptTemplate(
@@ -136,7 +136,7 @@ def build_rag_chain(vectorstore: FAISS, llm: HuggingFacePipeline):
     return chain
 
 
-# ── Main Entry ────────────────────────────────────────────────────────────────
+# --- Main Entry ----------------------------------------------------------
 def process_pdf_and_query(pdf_path: str, query: str) -> Tuple[str, List]:
     """
     Full pipeline: load PDF → chunk → embed → retrieve → answer.
