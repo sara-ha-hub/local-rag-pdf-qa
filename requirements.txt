@@ -1,0 +1,14 @@
+langchain>=0.2.0
+langchain-community>=0.2.0
+langchain-text-splitters>=0.2.0
+langchain-huggingface>=0.0.3
+faiss-cpu>=1.7.4
+sentence-transformers>=2.7.0
+transformers>=4.40.0
+accelerate>=0.30.0
+torch>=2.0.0
+pypdf>=4.0.0
+gradio>=4.30.0,<6.0.0
+matplotlib>=3.8.0
+scikit-learn>=1.4.0
+numpy>=1.26.0

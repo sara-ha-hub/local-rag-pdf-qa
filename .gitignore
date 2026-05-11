@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+*.pyo
+.env
+vectorstore/
+data/sample_pdfs/*.pdf
+.DS_Store
+*.egg-info/
+dist/
+build/
+.ipynb_checkpoints/
+*.pt
+*.bin
+venv/
