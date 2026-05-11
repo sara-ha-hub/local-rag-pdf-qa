@@ -16,7 +16,7 @@ from rag_pipeline import (
     load_llm,
 )
 
-# ── Global state (loaded once per session) ────────────────────────────────────
+# ----- Global state (loaded once per session) -------------------------------
 _vectorstore = None
 _chain = None
 _llm = None
@@ -28,7 +28,7 @@ def load_pdf(pdf_file):
     global _vectorstore, _chain, _llm, _doc_name
 
     if pdf_file is None:
-        return "⚠️ Please upload a PDF first.", gr.update(interactive=False)
+        return " Please upload a PDF first.", gr.update(interactive=False)
 
     try:
         _doc_name = os.path.basename(pdf_file)
@@ -42,12 +42,12 @@ def load_pdf(pdf_file):
         _chain = build_rag_chain(_vectorstore, _llm)
 
         return (
-            f"✅ **{_doc_name}** loaded — {len(chunks)} chunks indexed. Ask away!",
+            f" **{_doc_name}** loaded — {len(chunks)} chunks indexed. Ask away!",
             gr.update(interactive=True),
         )
     except Exception as e:
         traceback.print_exc()
-        return f"❌ Error: {type(e).__name__}: {str(e)}", gr.update(interactive=False)
+        return f" Error: {type(e).__name__}: {str(e)}", gr.update(interactive=False)
 
 
 def answer_question(question, history):
@@ -63,7 +63,7 @@ def answer_question(question, history):
     if _chain is None:
         history.append({"role": "user", "content": question})
         history.append(
-            {"role": "assistant", "content": "⚠️ Please upload and process a PDF first."}
+            {"role": "assistant", "content": " Please upload and process a PDF first."}
         )
         return history, ""
 
@@ -76,7 +76,7 @@ def answer_question(question, history):
         for doc in sources[:3]:
             page = doc.metadata.get("page", "?")
             snippet = doc.page_content[:200].replace("\n", " ")
-            source_text += f"\n📄 *Page {page}*: {snippet}..."
+            source_text += f"\n *Page {page}*: {snippet}..."
 
         history.append({"role": "user", "content": question})
         history.append({"role": "assistant", "content": answer + source_text})
@@ -85,11 +85,11 @@ def answer_question(question, history):
     except Exception as e:
         traceback.print_exc()
         history.append({"role": "user", "content": question})
-        history.append({"role": "assistant", "content": f"❌ Error: {str(e)}"})
+        history.append({"role": "assistant", "content": f" Error: {str(e)}"})
         return history, ""
 
 
-# ── UI ────────────────────────────────────────────────────────────────────────
+# --- UI ----------------------------------------------
 _THEME = gr.themes.Soft(primary_hue="blue")
 _CSS = """
 .status-box { border-radius: 8px; padding: 12px; }
@@ -101,7 +101,7 @@ with gr.Blocks(title="RAG PDF Assistant", theme=_THEME, css=_CSS) as demo:
 
     gr.Markdown(
         """
-        # 📄 RAG PDF Assistant
+        # RAG PDF Assistant
         **Upload a PDF → Ask questions → Get answers grounded in your document.**
 
         *Powered by FAISS + sentence-transformers + Qwen2.5 (fully local, no API keys)*
@@ -116,7 +116,7 @@ with gr.Blocks(title="RAG PDF Assistant", theme=_THEME, css=_CSS) as demo:
                 file_types=[".pdf"],
                 type="filepath",
             )
-            load_btn = gr.Button("⚡ Process PDF", variant="primary")
+            load_btn = gr.Button(" Process PDF", variant="primary")
             status = gr.Markdown("*No document loaded yet.*")
 
         with gr.Column(scale=2):
@@ -136,9 +136,9 @@ with gr.Blocks(title="RAG PDF Assistant", theme=_THEME, css=_CSS) as demo:
                 )
                 submit_btn = gr.Button("Ask →", variant="primary", scale=1)
 
-            clear_btn = gr.Button("🗑️ Clear chat", size="sm")
+            clear_btn = gr.Button(" Clear chat", size="sm")
 
-    gr.Markdown("### 💡 Example questions to try")
+    gr.Markdown("### Example questions to try")
     gr.Examples(
         examples=[
             ["What is the main topic of this document?"],
@@ -149,7 +149,7 @@ with gr.Blocks(title="RAG PDF Assistant", theme=_THEME, css=_CSS) as demo:
         inputs=question_box,
     )
 
-    # ── Events ────────────────────────────────────────────────────────────────
+    # ------- Events -------------------------
     load_btn.click(
         fn=load_pdf,
         inputs=[pdf_input],
