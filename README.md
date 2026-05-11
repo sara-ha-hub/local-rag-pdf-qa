@@ -1,6 +1,6 @@
 # RAG PDF Assistant
 
-> **Ask questions about any PDF — answered by AI, grounded in your document.**  
+> **Ask questions about any PDF - answered by AI, grounded in your document.**  
 > Fully local. No API keys. No cloud. Just your machine.
 
 ![Python](https://img.shields.io/badge/Python-3.10+-blue?logo=python)
@@ -17,7 +17,7 @@
 
 1. **Retrieving** the most relevant passages from a document
 2. **Augmenting** the LLM's prompt with those passages
-3. **Generating** an answer grounded in real content — not hallucinated
+3. **Generating** an answer grounded in real content - not hallucinated
 
 This prevents hallucinations and makes the model's answers verifiable and traceable back to the source.
 
